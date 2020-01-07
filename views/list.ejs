@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <title>To Do List</title>
-        <link rel="stylesheet" href="css/styles.css">
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,400&display=swap" rel="stylesheet">
-    </head>
-    <body>
+<%- include("header") -%>
         <div class="box" id="heading"> 
             <h1> <%= listTitle %> </h1>
         </div>
@@ -21,10 +14,7 @@
            <form class ="item" action="/" method="POST">
             <input type="text" name="newItem" autocomplete="off" placeholder="New list item">
              <!-- value of button is dynamic to tell which list item was added to   -->
-           <button type="submit" name="list" value= <%= listTitle %> </button>>+</button>  
+           <button type="submit" name="list" value= <%= listTitle %> </button>+</button>  
             </form>
         </div>
-
-        
-            </body>
-</html>
+        <%- include("footer") -%>
