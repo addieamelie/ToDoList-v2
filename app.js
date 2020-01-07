@@ -8,7 +8,7 @@ const app = express();
 
 //can use const cause we can push to the array but not assign new array
 
-const items = ["Buy Food", "Cook Food", "Eat Food"];
+const items = ["Buy groceries", "Go to post office", "Pay bills"];
 const workItems = [];
 
 app.set("view engine", "ejs"); //below the express one cause uses app
