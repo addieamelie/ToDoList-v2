@@ -5,43 +5,30 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+var item = "";
+
 app.set("view engine", "ejs"); //below the express one cause uses app
 
-app.get("/", (req, res) => {
-  var today = new Date();
-  var currentDay = today.getDay();
-  var day = "";
+app.use(bodyParser.urlencoded({extended:true}));
 
-  switch (currentDay) {
-    case 0:
-        day = "Sunday";
-      break;
-      case 1:
-        day = "Monday";
-      break;
-      case 2:
-        day = "Tuesday";
-      break;
-      case 3:
-        day = "Wedfday";
-      break;
-      case 4:
-        day = "Thurday";
-      break;
-      case 5:
-        day = "Friday";
-      break;
-      case 6:
-        day = "Saturday";
-      break;
+app.get("/", (req, res) => {
   
-    default:
-      console.log("Error: current day is equal to " + currentDay
-      );
-      break;
-  }
+  var today = new Date();
+  
+  var options = {
+    weekday: "long", 
+    day: "numeric",
+    month: "long"
+  };
+
+  var day = today.toLocaleDateString("en-US", options);
    //list.ejs has to be in views
-  res.render("list", {kindOfDay: day}); //some ppl use same name as in ejs file but it's easier to differentiate
+  res.render("list", {kindOfDay: day, newListItem: item}); //some ppl use same name as in ejs file but it's easier to differentiate
+});
+
+app.post("/", (req,res) => {
+  item = req.body.newItem;
+  res.redirect("/"); //redirect to home route
 });
 
 app.listen(3000, () => {
