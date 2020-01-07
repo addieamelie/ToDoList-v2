@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-var item = "";
+var items = [];
 
 app.set("view engine", "ejs"); //below the express one cause uses app
 
@@ -23,11 +23,12 @@ app.get("/", (req, res) => {
 
   var day = today.toLocaleDateString("en-US", options);
    //list.ejs has to be in views
-  res.render("list", {kindOfDay: day, newListItem: item}); //some ppl use same name as in ejs file but it's easier to differentiate
+  res.render("list", {kindOfDay: day, newListItems: items}); //some ppl use same name as in ejs file but it's easier to differentiate
 });
 
 app.post("/", (req,res) => {
-  item = req.body.newItem;
+  var item = req.body.newItem;
+  items.push(item);
   res.redirect("/"); //redirect to home route
 });
 
