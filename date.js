@@ -7,7 +7,9 @@
 //   var getDate = function() {
 //4. Use arrow function
 
-module.exports.getDate = () => {
+
+// no need to use module.exports
+exports.getDate = () => {
   let today = new Date();
 
   var options = {
@@ -20,7 +22,7 @@ module.exports.getDate = () => {
 
 //export another function from module
 
-module.exports.getDay = () => {
+exports.getDay = () => {
   let today = new Date();
 
   var options = {
