@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  let day = date();
+  let day = date.getDate(); //can change to date.getDay()
   //list.ejs has to be in views to use render
   res.render("list", { listTitle: day, newListItems: items }); //some ppl use same name as in ejs file but it's easier to differentiate
 });
