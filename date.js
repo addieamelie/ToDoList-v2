@@ -10,9 +10,10 @@
 
 // no need to use module.exports
 exports.getDate = () => {
-  let today = new Date();
+    //change to const cause we dont change the values
+  const today = new Date();
 
-  var options = {
+  const options = {
     day: "numeric",
     weekday: "long",
     month: "long"
@@ -23,12 +24,11 @@ exports.getDate = () => {
 //export another function from module
 
 exports.getDay = () => {
-  let today = new Date();
+  const today = new Date();
 
-  var options = {
+  const options = {
     weekday: "long"
   };
 
   return today.toLocaleDateString("en-US", options);
 };
-console.log(module.exports);

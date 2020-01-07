@@ -26,7 +26,22 @@ h2 {
 .about {
   background: rgba(255, 255, 255, 0.7);
 }
-
+.navbar {
+  text-align: center;
+  padding: 10px;
+  font-size: 1.4rem;
+  background: rgba(252, 184, 184, 0.7);
+  width: 30%;
+  margin: 0 auto;
+}
+.navbar a{
+  padding: 10px;
+  text-decoration: none;
+  color: #444f5a;
+}
+a:hover {
+  color: #ff9999;
+}
 #heading {
   background-color: #ff9999;
   text-align: center;
