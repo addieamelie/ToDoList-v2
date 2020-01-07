@@ -1,4 +1,7 @@
 // Adding new module
+
+module.exports = getDate;
+
 function getDate() {
   let today = new Date();
 

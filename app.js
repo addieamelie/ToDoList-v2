@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const date = require(__dirname + "/date.js"); // ALWAYS REMEMBER ////// SLASH
 
 const app = express();
 
@@ -14,16 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  var today = new Date();
-
-  var options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long"
-  };
-
-  var day = today.toLocaleDateString("en-US", options);
-  //list.ejs has to be in views
+  let day = date();
+  //list.ejs has to be in views to use render
   res.render("list", { listTitle: day, newListItems: items }); //some ppl use same name as in ejs file but it's easier to differentiate
 });
 
