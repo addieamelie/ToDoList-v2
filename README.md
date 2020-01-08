@@ -11,6 +11,5 @@ Source code for a simple to do list website that:
 * has an *About* page
 * connects to MongoDB locally (can be changed to Atlas)
 
-Made using Node.js(Express.js), EJS
+Made using Node.js(Express.js), EJS, MongoDB(Mongoose)
 
-Website is not yet adjusted to mobile view.
