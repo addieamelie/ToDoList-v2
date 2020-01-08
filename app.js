@@ -39,20 +39,20 @@ const item3 = new Item({
 });
 const defaultItems = [item1, item2, item3];
 
-// Item.insertMany(defaultItems, (err)=>{
-//   if (err){
-//     console.log(err);
-//   } else {
-//     console.log("Inserted successfully");
-//     mongoose.connection.close();
-//   }
-// });
-
 app.get("/", (req, res) => {
-
   Item.find({}, (err, foundItems) => {
-    console.log(foundItems);
-    res.render("list", { listTitle: day, newListItems: foundItems }); //some ppl use same name as in ejs file but it's easier to differentiate
+    if (foundItems.length === 0) {
+      Item.insertMany(defaultItems, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Inserted successfully");
+        }
+      });
+      res.redirect("/");
+    } else {
+      res.render("list", { listTitle: day, newListItems: foundItems }); //some ppl use same name as in ejs file but it's easier to differentiate
+    }
   });
 
   const day = date.getDate(); //can change to date.getDay()
@@ -60,7 +60,11 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  const item = req.body.newItem;
+  const itemName = req.body.newItem;
+  const item = new Item({
+    name: itemName
+  });
+  item.save();
   if (req.body.list === "Work") {
     workItems.push(item);
     res.redirect("/work");
@@ -68,6 +72,16 @@ app.post("/", (req, res) => {
     items.push(item);
     res.redirect("/"); //redirect to home route
   }
+});
+app.post("/delete", (req, res) => {
+  const checkedItemId = req.body.checkbox;
+
+  Item.findByIdAndRemove(checkedItemId, (err)=>{
+    if(!err){
+      console.log("Successfully removed.");
+      res.redirect("/");
+    }
+  })
 });
 
 app.get("/work", (req, res) => {
