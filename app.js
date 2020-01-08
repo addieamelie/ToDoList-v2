@@ -11,6 +11,7 @@ const app = express();
 
 const items = ["Buy groceries", "Go to post office", "Pay bills"];
 const workItems = [];
+const day = date.getDate(); //can change to date.getDay()
 
 app.set("view engine", "ejs"); //below the express one cause uses app
 
@@ -39,10 +40,16 @@ const item3 = new Item({
 });
 const defaultItems = [item1, item2, item3];
 
+const listSchema = {
+  name: String,
+  items: [itemSchema]
+};
+const List = mongoose.model("List", listSchema);
+
 app.get("/", (req, res) => {
   Item.find({}, (err, foundItems) => {
     if (foundItems.length === 0) {
-      Item.insertMany(defaultItems, (err) => {
+      Item.insertMany(defaultItems, err => {
         if (err) {
           console.log(err);
         } else {
@@ -55,38 +62,66 @@ app.get("/", (req, res) => {
     }
   });
 
-  const day = date.getDate(); //can change to date.getDay()
   //list.ejs has to be in views to use render
 });
 
 app.post("/", (req, res) => {
-  const itemName = req.body.newItem;
+  const listName = req.body.list; //name of button
+  const itemName = req.body.newItem; //name of input
+
   const item = new Item({
     name: itemName
   });
-  item.save();
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
+
+  if (listName === day) {
+    //workItems.push(item);
+    item.save();
+    res.redirect("/");
   } else {
-    items.push(item);
-    res.redirect("/"); //redirect to home route
+    List.findOne({ name: listName }, (err, foundList) => {
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName); //redirect to home route
+    });
   }
 });
 app.post("/delete", (req, res) => {
   const checkedItemId = req.body.checkbox;
 
-  Item.findByIdAndRemove(checkedItemId, (err)=>{
-    if(!err){
+  Item.findByIdAndRemove(checkedItemId, err => {
+    if (!err) {
       console.log("Successfully removed.");
       res.redirect("/");
     }
-  })
+  });
 });
 
-app.get("/work", (req, res) => {
-  res.render("list", { listTitle: "Work List", newListItems: workItems });
+app.get("/favicon.ico", function(req, res) {
+  res.sendStatus(204);
 });
+
+app.get("/:customListName", (req, res) => {
+  const customListName = req.params.customListName;
+
+  List.findOne({ name: customListName }, (err, foundList) => {
+    if (!err) {
+      if (!foundList) {
+        const list = new List({
+          name: customListName,
+          items: defaultItems
+        });
+        list.save();
+        res.redirect("/" + customListName);
+      } else {
+        res.render("list", {
+          listTitle: foundList.name,
+          newListItems: foundList.items
+        });
+      }
+    }
+  });
+});
+
 app.get("/about", (req, res) => {
   res.render("about");
 });
