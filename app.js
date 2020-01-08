@@ -63,7 +63,7 @@ app.get("/", (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          console.log("Inserted successfully");
+          //console.log("Inserted successfully");
         }
       });
       res.redirect("/");
@@ -103,12 +103,12 @@ app.post("/delete", (req, res) => {
   if (listName === day) {
     Item.findByIdAndRemove(checkedItemId, err => {
       if (!err) {
-        console.log("Successfully removed.");
+        //console.log("Successfully removed.");
         res.redirect("/");
       }
     });
   } else {
-    console.log(listName, checkedItemId);
+    //console.log(listName, checkedItemId);
     List.findOneAndUpdate(
       { name: listName },
       { $pull: { items: { _id: checkedItemId } } },
@@ -121,7 +121,7 @@ app.post("/delete", (req, res) => {
   }
 });
 
-//Show and/or generate custom lists and add them to list collction in db
+//Show and/or generate custom lists and add them to list collection in db
 app.get("/:customListName", (req, res) => {
   const customListName = _.capitalize(req.params.customListName); //use lodash to capitalize list name
 
@@ -145,5 +145,5 @@ app.get("/:customListName", (req, res) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("Server started on port 3000.");
+  console.log("Server started.");
 });
