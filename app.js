@@ -21,11 +21,42 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+//create
+const itemSchema = {
+  name: String
+};
+//create mongoosemodel
+const Item = mongoose.model("Item", itemSchema);
+
+const item1 = new Item({
+  name: "Do groceries"
+});
+const item2 = new Item({
+  name: "Do laundry"
+});
+const item3 = new Item({
+  name: "Watch news"
+});
+const defaultItems = [item1, item2, item3];
+
+// Item.insertMany(defaultItems, (err)=>{
+//   if (err){
+//     console.log(err);
+//   } else {
+//     console.log("Inserted successfully");
+//     mongoose.connection.close();
+//   }
+// });
 
 app.get("/", (req, res) => {
+
+  Item.find({}, (err, foundItems) => {
+    console.log(foundItems);
+    res.render("list", { listTitle: day, newListItems: foundItems }); //some ppl use same name as in ejs file but it's easier to differentiate
+  });
+
   const day = date.getDate(); //can change to date.getDay()
   //list.ejs has to be in views to use render
-  res.render("list", { listTitle: day, newListItems: items }); //some ppl use same name as in ejs file but it's easier to differentiate
 });
 
 app.post("/", (req, res) => {
