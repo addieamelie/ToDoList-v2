@@ -8,6 +8,8 @@
   },
   "author": "Adrianna Nosal",
   "license": "ISC",
+  "engines": {
+    "node": "13.2.0"},
   "dependencies": {
     "body-parser": "^1.19.0",
     "ejs": "^3.0.1",
